@@ -1,0 +1,717 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Federal Salary Calculator 2026-27</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    font-family:'Poppins',sans-serif;
+    background:#060816;
+    color:white;
+    min-height:100vh;
+    overflow-x:hidden;
+    padding:30px 15px;
+}
+
+/* BACKGROUND */
+
+.bg{
+    position:fixed;
+    inset:0;
+    overflow:hidden;
+    z-index:-1;
+}
+
+.blob{
+    position:absolute;
+    border-radius:50%;
+    filter:blur(100px);
+    opacity:.35;
+}
+
+.blob1{
+    width:350px;
+    height:350px;
+    background:#00ff99;
+    top:-120px;
+    left:-100px;
+}
+
+.blob2{
+    width:300px;
+    height:300px;
+    background:#00bfff;
+    bottom:-120px;
+    right:-100px;
+}
+
+.blob3{
+    width:260px;
+    height:260px;
+    background:#ff00ff;
+    top:50%;
+    left:50%;
+    transform:translate(-50%,-50%);
+}
+
+/* WRAPPER */
+
+.wrapper{
+    width:100%;
+    max-width:1100px;
+    margin:auto;
+}
+
+/* HEADER */
+
+.header{
+    text-align:center;
+    margin-bottom:35px;
+}
+
+.badge{
+    display:inline-flex;
+    align-items:center;
+    gap:10px;
+    background:rgba(0,255,153,.08);
+    border:1px solid rgba(0,255,153,.3);
+    color:#00ff99;
+    padding:10px 20px;
+    border-radius:50px;
+    font-size:13px;
+    font-weight:600;
+    margin-bottom:20px;
+    backdrop-filter:blur(10px);
+}
+
+.header h1{
+    font-size:52px;
+    line-height:1.1;
+    margin-bottom:15px;
+    font-weight:700;
+    background:linear-gradient(90deg,#00ff99,#00bfff,#ffffff);
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+}
+
+.header p{
+    max-width:700px;
+    margin:auto;
+    color:#a8b1c7;
+    line-height:1.8;
+    font-size:15px;
+}
+
+/* GLASS CARD */
+
+.card{
+    background:rgba(255,255,255,.05);
+    border:1px solid rgba(255,255,255,.08);
+    backdrop-filter:blur(20px);
+    border-radius:30px;
+    padding:30px;
+    box-shadow:0 10px 40px rgba(0,0,0,.35);
+    margin-bottom:25px;
+}
+
+.section-title{
+    font-size:22px;
+    margin-bottom:25px;
+    font-weight:600;
+    color:#00ff99;
+}
+
+/* RATE BOXES */
+
+.rate-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+    gap:18px;
+    margin-bottom:30px;
+}
+
+.rate-box{
+    background:rgba(255,255,255,.04);
+    border:1px solid rgba(255,255,255,.08);
+    border-radius:20px;
+    padding:22px;
+}
+
+.rate-box h3{
+    font-size:14px;
+    color:#8aa0c7;
+    margin-bottom:10px;
+}
+
+.rate-box .value{
+    font-size:26px;
+    font-weight:700;
+}
+
+/* FORM */
+
+.form-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:20px;
+}
+
+.input-group{
+    display:flex;
+    flex-direction:column;
+}
+
+.input-group label{
+    margin-bottom:10px;
+    font-size:14px;
+    color:#9bb0d3;
+}
+
+.input-group select,
+.input-group input{
+    height:58px;
+    border:none;
+    outline:none;
+    border-radius:16px;
+    background:rgb(33 34 48);
+    border:1px solid rgba(255,255,255,.08);
+    color:white;
+    padding:0 18px;
+    font-size:16px;
+}
+
+.input-group input::placeholder{
+    color:#7083a7;
+}
+
+.buttons{
+    display:flex;
+    gap:15px;
+    margin-top:30px;
+}
+
+button{
+    flex:1;
+    height:58px;
+    border:none;
+    border-radius:16px;
+    cursor:pointer;
+    font-size:16px;
+    font-weight:600;
+    transition:.25s;
+}
+
+.primary{
+    background:linear-gradient(90deg,#00ff99,#00bfff);
+    color:#051018;
+}
+
+.primary:hover{
+    transform:translateY(-2px);
+}
+
+.secondary{
+    background:rgba(255,255,255,.08);
+    color:white;
+}
+
+.secondary:hover{
+    background:rgba(255,255,255,.12);
+}
+
+/* ERROR */
+
+.err-box{
+    margin-top:18px;
+    background:rgba(255,0,0,.08);
+    border:1px solid rgba(255,0,0,.3);
+    color:#ff8080;
+    padding:15px;
+    border-radius:15px;
+    display:none;
+}
+
+.err-box.show{
+    display:block;
+}
+
+/* RESULTS */
+
+#results-section{
+    display:none;
+}
+
+.hero{
+    background:linear-gradient(135deg,rgba(0,255,153,.1),rgba(0,191,255,.1));
+    border:1px solid rgba(0,255,153,.2);
+    border-radius:30px;
+    padding:40px;
+    margin-bottom:25px;
+}
+
+.hero h2{
+    font-size:14px;
+    color:#9cb4db;
+    margin-bottom:10px;
+    text-transform:uppercase;
+    letter-spacing:2px;
+}
+
+.hero .amount{
+    font-size:65px;
+    font-weight:700;
+    margin-bottom:15px;
+}
+
+.hero .monthly{
+    font-size:24px;
+    color:#00ff99;
+}
+
+/* SUMMARY */
+
+.summary-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+    gap:20px;
+}
+
+.summary-box{
+    background:rgba(255,255,255,.04);
+    border:1px solid rgba(255,255,255,.08);
+    border-radius:24px;
+    padding:25px;
+    text-align:center;
+}
+
+.summary-box h3{
+    color:#95abd0;
+    font-size:14px;
+    margin-bottom:10px;
+}
+
+.summary-box .sum{
+    font-size:34px;
+    font-weight:700;
+}
+
+/* TABLE */
+
+.table-wrap{
+    overflow-x:auto;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+}
+
+table th{
+    background:rgba(255,255,255,.06);
+    padding:16px;
+    text-align:left;
+    font-size:13px;
+    color:#00ff99;
+}
+
+table td{
+    padding:16px;
+    border-bottom:1px solid rgba(255,255,255,.06);
+    color:#c6d3eb;
+}
+
+.total-row td{
+    color:#00ff99;
+    font-weight:700;
+}
+
+/* RESPONSIVE */
+
+@media(max-width:768px){
+
+    .header h1{
+        font-size:34px;
+    }
+
+    .form-grid{
+        grid-template-columns:1fr;
+    }
+
+    .hero .amount{
+        font-size:42px;
+    }
+
+    .buttons{
+        flex-direction:column;
+    }
+
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="bg">
+    <div class="blob blob1"></div>
+    <div class="blob blob2"></div>
+    <div class="blob blob3"></div>
+</div>
+
+<div class="wrapper">
+
+<div class="header">
+    <div class="badge">🏛️ Budget 2026-27 • Annexure-VII</div>
+
+    <h1>Federal Salary Calculator</h1>
+
+    <p>
+        Calculate your revised salary, allowances, DRA, ARA and conveyance increase
+        according to Federal Government Pay Scale 2026.
+    </p>
+</div>
+
+<div class="card">
+
+    <div class="section-title">Employee Details</div>
+
+    <div class="rate-grid">
+
+        <div class="rate-box">
+            <h3>ARA 2026</h3>
+            <div class="value">7%</div>
+        </div>
+
+        <div class="rate-box">
+            <h3>DRA 2026</h3>
+            <div class="value">15%</div>
+        </div>
+
+        <div class="rate-box">
+            <h3>Conveyance</h3>
+            <div class="value">50%</div>
+        </div>
+
+    </div>
+
+    <div class="form-grid">
+
+        <div class="input-group">
+
+            <label>Select BPS Grade</label>
+
+            <select id="bps" onchange="clearResults()">
+                <option value="">Select BPS</option>
+
+                <option value="1">BPS-01</option>
+                <option value="2">BPS-02</option>
+                <option value="3">BPS-03</option>
+                <option value="4">BPS-04</option>
+                <option value="5">BPS-05</option>
+                <option value="6">BPS-06</option>
+                <option value="7">BPS-07</option>
+                <option value="8">BPS-08</option>
+                <option value="9">BPS-09</option>
+                <option value="10">BPS-10</option>
+                <option value="11">BPS-11</option>
+                <option value="12">BPS-12</option>
+                <option value="13">BPS-13</option>
+                <option value="14">BPS-14</option>
+                <option value="15">BPS-15</option>
+                <option value="16">BPS-16</option>
+                <option value="17">BPS-17</option>
+                <option value="18">BPS-18</option>
+                <option value="19">BPS-19</option>
+                <option value="20">BPS-20</option>
+                <option value="21">BPS-21</option>
+                <option value="22">BPS-22</option>
+            </select>
+
+        </div>
+
+        <div class="input-group">
+
+            <label>Current Running Basic Pay</label>
+
+            <input type="number" id="basic" placeholder="Enter Basic Pay" oninput="clearResults()">
+
+        </div>
+
+    </div>
+
+    <div class="err-box" id="err">
+        Please select BPS and enter your basic pay.
+    </div>
+
+    <div class="buttons">
+        <button class="primary" onclick="calculateSalary()">
+            Calculate Salary
+        </button>
+
+        <button class="secondary" onclick="resetCalc()">
+            Reset
+        </button>
+    </div>
+
+</div>
+
+<div id="results-section">
+
+    <div class="hero">
+        <h2>New Basic Pay</h2>
+
+        <div class="amount">
+            Rs. <span id="heroBasic">0</span>
+        </div>
+
+        <div class="monthly">
+            Monthly Increase: Rs. <span id="heroAmt">0</span>
+        </div>
+    </div>
+
+    <div class="card">
+
+        <div class="section-title">Increase Summary</div>
+
+        <div class="summary-grid">
+
+            <div class="summary-box">
+                <h3>ARA 2026</h3>
+                <div class="sum" id="s-ara">0</div>
+            </div>
+
+            <div class="summary-box">
+                <h3>DRA 2026</h3>
+                <div class="sum" id="s-dra">0</div>
+            </div>
+
+            <div class="summary-box">
+                <h3>Conveyance</h3>
+                <div class="sum" id="s-conv">0</div>
+            </div>
+
+            <div class="summary-box">
+                <h3>Total Increase</h3>
+                <div class="sum" id="s-total">0</div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+</div>
+
+<script>
+
+/* ORIGINAL LOGIC KEPT SAME */
+
+const scale2022 = {
+1:[13550,430],
+2:[13820,490],
+3:[14260,580],
+4:[14690,660],
+5:[15230,750],
+6:[15760,840],
+7:[16310,910],
+8:[16890,1000],
+9:[17470,1090],
+10:[18050,1190],
+11:[18650,1310],
+12:[19770,1430],
+13:[21160,1560],
+14:[22530,1740],
+15:[23920,1980],
+16:[28070,2260],
+17:[45070,3420],
+18:[56880,4260],
+19:[87840,4530],
+20:[102470,6690],
+21:[113790,7420],
+22:[122190,8710]
+};
+
+const scale2026 = {
+1:[16280,540],
+2:[16660,620],
+3:[17130,730],
+4:[17650,830],
+5:[18300,940],
+6:[18930,1050],
+7:[19590,1140],
+8:[20290,1250],
+9:[20990,1370],
+10:[21680,1490],
+11:[22410,1640],
+12:[23750,1790],
+13:[25420,1950],
+14:[27060,2180],
+15:[28730,2480],
+16:[33720,2830],
+17:[54140,4280],
+18:[68330,5330],
+19:[105510,5670],
+20:[123090,8370],
+21:[136680,9280],
+22:[146770,10890]
+};
+
+const init2022 = {
+1:13550,
+2:13820,
+3:14260,
+4:14690,
+5:15230,
+6:15760,
+7:16310,
+8:16890,
+9:17470,
+10:18050,
+11:18650,
+12:19770,
+13:21160,
+14:22530,
+15:23920,
+16:28070,
+17:45070,
+18:56880,
+19:87840,
+20:102470,
+21:113790,
+22:122190
+};
+
+const conv2022 = {
+1:1785,
+2:1785,
+3:1785,
+4:1785,
+5:1932,
+6:1932,
+7:1932,
+8:1932,
+9:1932,
+10:1932,
+11:2856,
+12:2856,
+13:2856,
+14:2856,
+15:2856,
+16:5000,
+17:5000,
+18:5000,
+19:5000,
+20:5000,
+21:5000,
+22:5000
+};
+
+const fmt = n => Math.round(n).toLocaleString('en-PK');
+
+function animateCount(el,target){
+    const steps=30,dur=500;
+    let step=0;
+
+    const timer=setInterval(()=>{
+        step++;
+        el.textContent=fmt(Math.round(target*step/steps));
+
+        if(step>=steps){
+            el.textContent=fmt(target);
+            clearInterval(timer);
+        }
+
+    },dur/steps);
+}
+
+function calculateSalary(){
+
+    const bps=parseInt(document.getElementById('bps').value);
+    const basic=parseFloat(document.getElementById('basic').value);
+
+    if(!bps || !basic || basic<=0){
+        document.getElementById('err').classList.add('show');
+        return;
+    }
+
+    document.getElementById('err').classList.remove('show');
+
+    const [min22,inc22]=scale2022[bps];
+    const [min26,inc26]=scale2026[bps];
+
+    const stage=Math.round((basic-min22)/inc22);
+
+    const newBasic=Math.min(
+        min26+stage*inc26,
+        min26+30*inc26
+    );
+
+    const ara=Math.round(newBasic*0.07);
+
+    const dra=Math.round(init2022[bps]*0.15);
+
+    const conv=Math.round(conv2022[bps]*0.50);
+
+    const total=ara+dra+conv;
+
+    animateCount(
+        document.getElementById('heroBasic'),
+        newBasic
+    );
+
+    animateCount(
+        document.getElementById('heroAmt'),
+        total
+    );
+
+    document.getElementById('s-ara').textContent='Rs. '+fmt(ara);
+
+    document.getElementById('s-dra').textContent='Rs. '+fmt(dra);
+
+    document.getElementById('s-conv').textContent='Rs. '+fmt(conv);
+
+    document.getElementById('s-total').textContent='Rs. '+fmt(total);
+
+    document.getElementById('results-section').style.display='block';
+
+    document.getElementById('results-section')
+    .scrollIntoView({
+        behavior:'smooth'
+    });
+
+}
+
+function clearResults(){
+
+    document.getElementById('results-section').style.display='none';
+
+    document.getElementById('err').classList.remove('show');
+
+}
+
+function resetCalc(){
+
+    document.getElementById('bps').value='';
+
+    document.getElementById('basic').value='';
+
+    clearResults();
+
+}
+
+</script>
+
+</body>
+</html>
